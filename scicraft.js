@@ -37,7 +37,10 @@ async function checkStreams(clientId, gracePeriod) {
   for (const msg of streamMessages) {
     if (online.includes(msg.twitchUser.toLowerCase())) continue
     if (Date.now() - msg.message.createdTimestamp < gracePeriod * 1000) {
-      console.log(msg.message.id + ' is in grace period')
+      if (!msg.loggedGrace) {
+        console.log(msg.message.id + ' is in grace period')
+        msg.loggedGrace = true
+      }
       continue
     }
     try {
