@@ -34,7 +34,6 @@ async function checkStreams(clientId, gracePeriod) {
   if (!users.length) return
   const streams = await getTwitchApi('streams', clientId, {first: 100, user_login: users})
   const online = streams.filter(s => s.type === 'live').map(s => s.user_name.toLowerCase())
-  console.log(online)
   for (const msg of streamMessages) {
     if (online.includes(msg.twitchUser.toLowerCase())) continue
     if (Date.now() - msg.message.createdTimestamp < gracePeriod * 1000) {
@@ -43,11 +42,11 @@ async function checkStreams(clientId, gracePeriod) {
     }
     try {
       await deleteAndLog(msg.message, 'Stream offline')
-      streamMessages.delete(msg)
     } catch (e) {
       console.error('Could not delete message ' + msg.message.id)
       console.error(e)
     }
+    streamMessages.delete(msg)
   }
 }
 
