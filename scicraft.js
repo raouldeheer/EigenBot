@@ -68,7 +68,9 @@ async function deleteAndLog(msg, reason) {
           name: 'Reason',
           value: reason
         }],
-        footer: msg.id,
+        footer: {
+          text: 'ID: ' + msg.id
+        },
         timestamp: new Date(msg.createdTimestamp)
       }
     })
