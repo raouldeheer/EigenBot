@@ -13,7 +13,13 @@ module.exports = (_client, _config) => {
       if (channels.includes(msg.channel.id)) checkCleanup(msg)
     })
     if (cleanupConf.twitchApiClientId) {
-      setInterval(() => checkStreams(cleanupConf.twitchApiClientId, cleanupConf.gracePeriod || (10 * 60)), 30e3)
+      setInterval(async () => {
+        try {
+          checkStreams(cleanupConf.twitchApiClientId, cleanupConf.gracePeriod || (10 * 60))
+        } catch (e) {
+          console.error(e)
+        }
+      }, 30e3)
     }
   }
 }
