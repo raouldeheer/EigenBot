@@ -15,7 +15,7 @@ module.exports = (_client, _config) => {
     if (cleanupConf.twitchApiClientId) {
       setInterval(async () => {
         try {
-          checkStreams(cleanupConf.twitchApiClientId, cleanupConf.gracePeriod || (10 * 60))
+          await checkStreams(cleanupConf.twitchApiClientId, cleanupConf.gracePeriod || (10 * 60))
         } catch (e) {
           console.error(e)
         }
@@ -93,7 +93,6 @@ async function getTwitchApi (path, clientId, params) {
   let res = JSON.parse(await r())
   const data = res.data
   while (res.data.length && res.pagination && res.pagination.cursor && res.pagination.cursor !== 'IA') {
-    console.log(res)
     params.after = res.pagination.cursor
     res = JSON.parse(await r())
     data.push(...res.data)
