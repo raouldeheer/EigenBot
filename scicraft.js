@@ -26,7 +26,7 @@ module.exports = (_client, _config) => {
 
 function checkCleanup(msg) {
   if (!msg.deletable || !/twitch\.tv\//.test(msg.content)) return
-  const match = msg.content.match(/twitch\.tv\/(.+)\b/)
+  const match = msg.content.match(/twitch\.tv\/(.+?)\b/)
   if (!match) return
   console.log('Picked up message ' + msg.id + ' linking to ' + match[0])
   streamMessages.add({
