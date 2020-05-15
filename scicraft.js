@@ -1,6 +1,7 @@
 const request = require('request-promise-native')
 
 let client, config
+const twitchAuth = {id: null, secret: null}
 const streamMessages = new Set()
 
 module.exports = (_client, _config) => {
@@ -12,10 +13,12 @@ module.exports = (_client, _config) => {
     client.on('message', msg => {
       if (channels.includes(msg.channel.id)) checkCleanup(msg)
     })
-    if (cleanupConf.twitchApiClientId) {
+    if (cleanupConf.twitchApiClientId && cleanupConf.twitchApiClientSecret) {
+      twitchAuth.id = cleanupConf.twitchApiClientId
+      twitchAuth.secret = cleanupConf.twitchApiClientSecret
       setInterval(async () => {
         try {
-          await checkStreams(cleanupConf.twitchApiClientId, cleanupConf.gracePeriod || (10 * 60))
+          await checkStreams(cleanupConf.gracePeriod || (10 * 60))
         } catch (e) {
           console.error(e)
         }
@@ -35,10 +38,10 @@ function checkCleanup(msg) {
   })
 }
 
-async function checkStreams(clientId, gracePeriod) {
+async function checkStreams(gracePeriod) {
   const users = [...new Set([...streamMessages].map(m => m.twitchUser))]
   if (!users.length) return
-  const streams = await getTwitchApi('streams', clientId, {first: 100, user_login: users})
+  const streams = await getTwitchApi('streams', {first: 100, user_login: users})
   const online = streams.filter(s => s.type === 'live').map(s => s.user_name.toLowerCase())
   for (const msg of streamMessages) {
     if (online.includes(msg.twitchUser.toLowerCase())) continue
@@ -83,11 +86,27 @@ async function deleteAndLog(msg, reason) {
   }
 }
 
-async function getTwitchApi (path, clientId, params) {
+let oauthToken, oauthExpires
+async function getTwitchOauthToken() {
+  if (oauthToken && Date.now() < oauthExpires) return oauthToken
+  console.log('Fetching new Twitch OAuth token')
+  const data = JSON.parse(await request({
+    url: 'https://id.twitch.tv/oauth2/token',
+    qs: {client_id: twitchAuth.id, client_secret: twitchAuth.secret, grant_type: 'client_credentials'},
+    method: 'POST'
+  }))
+  oauthToken = data.access_token
+  oauthExpires = Date.now() + (data.expires_in - 20) * 1000
+  return oauthToken
+}
+
+async function getTwitchApi (path, params) {
+  const token = await getTwitchOauthToken()
   const r = () => request({
     url: 'https://api.twitch.tv/helix/' + path, qs: params, qsStringifyOptions: {arrayFormat: 'repeat'},
     headers: {
-      'Client-ID': clientId
+      'Client-ID': twitchAuth.id,
+      'Authorization': 'Bearer ' + token
     }
   })
   let res = JSON.parse(await r())
