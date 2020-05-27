@@ -28,13 +28,13 @@ module.exports = (_client, _config) => {
 }
 
 function checkCleanup(msg) {
-  if (!msg.deletable || !/twitch\.tv\//.test(msg.content)) return
-  const match = msg.content.match(/twitch\.tv\/(.+?)\b/)
-  if (!match) return
-  console.log('Picked up message ' + msg.id + ' linking to ' + match[0])
+  if (!msg.deletable || !/\btwitch\.tv\//.test(msg.content)) return
+  const match = msg.content.match(/\b(clips\.)?twitch\.tv\/(.+?)\b/)
+  if (!match || match[1]) return
+  console.log(`Picked up message ${msg.id} linking to ${match[0]} (user ${match[2]})`)
   streamMessages.add({
     message: msg,
-    twitchUser: match[1]
+    twitchUser: match[2]
   })
 }
 
