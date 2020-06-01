@@ -31,7 +31,7 @@ module.exports = (_client, _config) => {
     const ignorePermissions = mediaOnlyConf['ignore-permissions'] || ['MANAGE_CHANNELS']
     const channels = mediaOnlyConf.channels || []
     client.on('message', msg => {
-      if (!msg.deletable || !msg.member || /\bhttp(s)?:\/\//.test(msg.content) || msg.embeds.length || msg.attachments.size) return
+      if (!channels.includes(msg.channel.id) || !msg.deletable || !msg.member || /\bhttp(s)?:\/\//.test(msg.content) || msg.embeds.length || msg.attachments.size) return
       for (const [id, role] of msg.member.roles.cache) {
         if (ignoreRoles.includes(id)) {
           console.log(`${msg.id}: ${msg.author.username} has ${role.name}, not deleting`)
