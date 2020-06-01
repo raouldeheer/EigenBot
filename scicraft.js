@@ -25,6 +25,28 @@ module.exports = (_client, _config) => {
       }, 30e3)
     }
   }
+  if (config['media-only']) {
+    const mediaOnlyConf = config['media-only']
+    const ignoreRoles = mediaOnlyConf['ignore-roles'] || []
+    const ignorePermissions = mediaOnlyConf['ignore-permissions'] || ['MANAGE_CHANNELS']
+    const channels = mediaOnlyConf.channels || []
+    client.on('message', msg => {
+      if (!msg.deletable || !msg.member || /\bhttp(s)?:\/\//.test(msg.content) || msg.embeds.length || msg.attachments.size) return
+      for (const [id, role] of msg.member.roles.cache) {
+        if (ignoreRoles.includes(id)) {
+          console.log(`${msg.id}: ${msg.author.username} has ${role.name}, not deleting`)
+          return
+        }
+      }
+      for (const perm of ignorePermissions) {
+        if (msg.member.hasPermission(perm)) {
+          console.log(`${msg.id}: ${msg.author.username} has ${perm}, not deleting`)
+          return
+        }
+      }
+      deleteAndLog(msg, 'Text message in media-only channel')
+    })
+  }
 }
 
 function checkCleanup(msg) {
