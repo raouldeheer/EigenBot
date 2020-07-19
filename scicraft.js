@@ -53,6 +53,7 @@ function checkCleanup(msg) {
   if (!msg.deletable || !/\btwitch\.tv\//.test(msg.content)) return
   const match = msg.content.match(/\b(clips\.)?twitch\.tv\/(.+?)\b/)
   if (!match || match[1]) return
+  if (match[2] === 'videos') return // Highlights & VODs
   console.log(`Picked up message ${msg.id} linking to ${match[0]} (user ${match[2]})`)
   streamMessages.add({
     message: msg,
