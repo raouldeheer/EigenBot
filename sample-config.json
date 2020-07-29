@@ -29,6 +29,7 @@
       "channels": ["<channel-id>"] // Channels which are moderated for messages that require media attachments or links
     },
     "minecraft-version": {
+      "channels": ["<channel-id>"],
       "webhook": "<url>"
     }
 }
