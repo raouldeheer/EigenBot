@@ -49,7 +49,7 @@ module.exports = (_client, _config) => {
   }
 }
 
-function checkCleanup(msg) {
+function checkCleanup (msg) {
   if (!msg.deletable || !/\btwitch\.tv\//.test(msg.content)) return
   const match = msg.content.match(/\b(clips\.)?twitch\.tv\/(.+?)\b/)
   if (!match || match[1]) return
@@ -61,7 +61,7 @@ function checkCleanup(msg) {
   })
 }
 
-async function checkStreams(gracePeriod) {
+async function checkStreams (gracePeriod) {
   const users = [...new Set([...streamMessages].map(m => m.twitchUser))]
   if (!users.length) return
   const streams = await getTwitchApi('streams', {first: 100, user_login: users})
@@ -85,7 +85,7 @@ async function checkStreams(gracePeriod) {
   }
 }
 
-async function deleteAndLog(msg, reason) {
+async function deleteAndLog (msg, reason) {
   await msg.delete({reason})
   if (config.modlog) {
     const modlog = await client.channels.fetch(config.modlog)
@@ -110,7 +110,7 @@ async function deleteAndLog(msg, reason) {
 }
 
 let oauthToken, oauthExpires
-async function getTwitchOauthToken() {
+async function getTwitchOauthToken () {
   if (oauthToken && Date.now() < oauthExpires) return oauthToken
   console.log('Fetching new Twitch OAuth token')
   const data = JSON.parse(await request({
@@ -126,7 +126,9 @@ async function getTwitchOauthToken() {
 async function getTwitchApi (path, params) {
   const token = await getTwitchOauthToken()
   const r = () => request({
-    url: 'https://api.twitch.tv/helix/' + path, qs: params, qsStringifyOptions: {arrayFormat: 'repeat'},
+    url: 'https://api.twitch.tv/helix/' + path,
+    qs: params,
+    qsStringifyOptions: {arrayFormat: 'repeat'},
     headers: {
       'Client-ID': twitchAuth.id,
       'Authorization': 'Bearer ' + token
