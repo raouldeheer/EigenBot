@@ -1,4 +1,5 @@
 {
+  "type": "module",
   "name": "scicraft-bot",
   "version": "1.1.0",
   "description": "Bot for the SciCraft Discord server.",
@@ -6,8 +7,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": ["commandblockguy", "skyrising"],
-  "repository": "https://github.com/skyrising/SciCraftBot",
+  "author": "commandblockguy",
+  "contributors": ["skyrising"],
+  "repository": "https://github.com/SciCraft/SciCraftBot",
   "license": "MIT",
   "dependencies": {
     "discord.js": "^12.2.0",

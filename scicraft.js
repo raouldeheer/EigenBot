@@ -1,10 +1,10 @@
-const request = require('request-promise-native')
+import request from 'request-promise-native'
 
 let client, config
 const twitchAuth = {id: null, secret: null}
 const streamMessages = new Set()
 
-module.exports = (_client, _config) => {
+export default (_client, _config) => {
   client = _client
   config = _config
   if (config['cleanup-streams']) {
