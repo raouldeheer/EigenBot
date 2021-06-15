@@ -1,15 +1,17 @@
 import request from 'request'
+import discord from 'discord.js'
+import JiraApi from 'jira-client';
 
-let jira, client, config
+let jira: JiraApi, client: discord.Client, config: any
 
-export default (_client, _config, _jira) => {
+export default (_client: discord.Client, _config: any, _jira: JiraApi) => {
   client = _client
   config = _config
   jira = _jira
   client.on('message', msg => onMessage(msg))
 }
 
-function onMessage (msg) {
+function onMessage (msg: discord.Message) {
   const escapedPrefix = config.prefix.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&')
   const regexPattern = new RegExp(escapedPrefix + '(mc|mcapi|mcce|mcds|mcl|mcpe|realms|sc|web)-[0-9]{1,7}', 'gi')
   const urlRegex = /https?:\/\/bugs.mojang.com\/browse\/(mc|mcapi|mcce|mcds|mcl|mcpe|realms|sc|web)-[0-9]{1,7}/gi
@@ -34,7 +36,7 @@ function onMessage (msg) {
     sendStatus(msg.channel)
     return
   }
-  let matches = []
+  let matches: any[] = []
   // Check for prefixed issue keys (!MC-1)
   const piks = msg.content.match(regexPattern)
   if (piks) matches = piks.map(prefixedIssueKey => prefixedIssueKey.slice(config.prefix.length))
@@ -64,7 +66,7 @@ function onMessage (msg) {
   }
 }
 
-function sendHelp (channel) {
+function sendHelp (channel: discord.TextChannel | discord.DMChannel | discord.NewsChannel) {
   channel.send({embed: {
     title: config.prefix + 'help',
     description: 'I listen for Minecraft bug report links or ' + config.prefix + 'PROJECT-NUMBER\n' +
@@ -84,7 +86,7 @@ function sendHelp (channel) {
   }})
 }
 
-function sendUpcoming (msg) {
+function sendUpcoming (msg: discord.Message) {
   let project = 'MC'
 
   const args = msg.content.split(' ')
@@ -106,7 +108,7 @@ function sendUpcoming (msg) {
       return
     }
 
-    function addLine (issues, response) {
+    function addLine (issues: { next: () => any; }, response: string | any[]) {
       // Get the next issue, if it exists
       const iter = issues.next()
       if (iter.done) {
@@ -150,7 +152,7 @@ function sendUpcoming (msg) {
   }, 500)
 }
 
-function sendStatus (channel) {
+function sendStatus (channel: discord.TextChannel | discord.DMChannel | discord.NewsChannel) {
   // Request json object with the status of services
   request('https://status.mojang.com/check', (error, response, body) => {
     // We really should never get this. If you are getting this, please verify that Mojang still exists.
@@ -160,7 +162,7 @@ function sendStatus (channel) {
     }
     // Gives a list of objects with a single key-value pair consisting of the service name as the key and status as a color green, yellow, or red as the value
     const statuses = JSON.parse(body)
-    if (statuses.every(function (service) {
+    if (statuses.every(function (service: { [x: string]: string; }) {
       // Get service name
       const name = Object.keys(service)[0]
       if (service[name] === 'green') {
@@ -178,7 +180,7 @@ function sendStatus (channel) {
 }
 
 // Send info about the bug in the form of an embed to the Discord channel
-function sendEmbed (channel, issue) {
+function sendEmbed (channel: discord.TextChannel | discord.DMChannel | discord.NewsChannel, issue: JiraApi.JsonResponse) {
   let descriptionString = '**Status:** ' + issue.fields.status.name
   if (!issue.fields.resolution) {
     // For unresolved issues
