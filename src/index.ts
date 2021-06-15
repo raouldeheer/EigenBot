@@ -1,8 +1,9 @@
 import fs from 'fs'
 import JiraApi from 'jira-client'
 import discord from 'discord.js'
+import { configOptions } from './types';
 
-const config = JSON.parse(fs.readFileSync('./config.json', 'utf-8'))
+const config: configOptions = JSON.parse(fs.readFileSync('./config.json', 'utf-8'))
 const client = new discord.Client()
 
 client.on('ready', () => {

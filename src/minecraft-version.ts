@@ -1,9 +1,10 @@
 import request from 'request-promise-native'
 import discord, { TextChannel } from 'discord.js'
+import { configOptions, Fields, mcVersionConfig } from './types';
 
-let client: discord.Client, config: any
+let client: discord.Client, config: mcVersionConfig
 
-export default (_client: discord.Client, _config: any) => {
+export default (_client: discord.Client, _config: configOptions) => {
   client = _client
   config = _config['minecraft-version']
   if (!config) return
@@ -44,14 +45,6 @@ async function poll (this: any) {
 const fancySize = (size: number) => {
   const mbs = size / (1024 * 1204)
   return mbs.toFixed(1) + 'MB'
-}
-
-interface Fields {
-  Changelog?: string;
-  Type: string;
-  Id: any;
-  'Version JSON': string;
-  Assets: string;
 }
 
 async function update (version: { url: string; type: string; id: any; releaseTime: any; }, test?: boolean) {

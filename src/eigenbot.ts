@@ -1,10 +1,11 @@
 import request from 'request'
 import discord from 'discord.js'
 import JiraApi from 'jira-client'
+import { configOptions } from './types';
 
-let jira: JiraApi, client: discord.Client, config: any
+let jira: JiraApi, client: discord.Client, config: configOptions
 
-export default (_client: discord.Client, _config: any, _jira: JiraApi) => {
+export default (_client: discord.Client, _config: configOptions, _jira: JiraApi) => {
   client = _client
   config = _config
   jira = _jira
@@ -191,7 +192,8 @@ function sendEmbed (channel: discord.TextChannel | discord.DMChannel | discord.N
   }
   // Generate the message
   // Pick a color based on the status
-  let color = config.colors[issue.fields.status.name]
+  // @ts-ignore
+  let color: number = config.colors[issue.fields.status.name]
   // Additional colors for different resolutions
   if (issue.fields.resolution && ['Invalid', 'Duplicate', 'Incomplete', 'Cannot Reproduce'].includes(issue.fields.resolution.name)) {
     color = config.colors['Invalid']

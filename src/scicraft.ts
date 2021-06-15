@@ -1,15 +1,10 @@
 import request from 'request-promise-native'
 import discord, { TextChannel } from 'discord.js'
+import { StreamMessage } from './types';
 
 let client: discord.Client, config: any
 const twitchAuth = {id: null, secret: null}
 const streamMessages = new Set<StreamMessage>()
-
-interface StreamMessage {
-  message: discord.Message,
-  twitchUser: string,
-  loggedGrace?: boolean
-}
 
 export default (_client: discord.Client, _config: any) => {
   client = _client
