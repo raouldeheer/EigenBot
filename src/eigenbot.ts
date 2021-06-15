@@ -50,7 +50,7 @@ function onMessage (msg: discord.Message) {
   matches = matches.filter(function (elem, index, self) { return self.indexOf(elem) === index })
   if (matches.length) {
     // Get a list of issues by issue key
-    matches.forEach(function (issueKey, index) {
+    matches.forEach(function (issueKey) {
       jira.findIssue(issueKey).then(function (issue) {
         // Send info about the bug in the form of an embed to the Discord channel
         sendEmbed(msg.channel, issue)
@@ -154,7 +154,7 @@ function sendUpcoming (msg: discord.Message) {
 
 function sendStatus (channel: discord.TextChannel | discord.DMChannel | discord.NewsChannel) {
   // Request json object with the status of services
-  request('https://status.mojang.com/check', (error, response, body) => {
+  request('https://status.mojang.com/check', (error, _response, body) => {
     // We really should never get this. If you are getting this, please verify that Mojang still exists.
     if (error) {
       channel.send("Unable to reach Mojang API for status check. Let's assume everything went wrong.")
