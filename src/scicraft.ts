@@ -1,10 +1,17 @@
 import request from 'request-promise-native'
+import discord, { TextChannel } from 'discord.js'
 
-let client, config
+let client: discord.Client, config: any
 const twitchAuth = {id: null, secret: null}
-const streamMessages = new Set()
+const streamMessages = new Set<StreamMessage>()
 
-export default (_client, _config) => {
+interface StreamMessage {
+  message: discord.Message,
+  twitchUser: string,
+  loggedGrace?: boolean
+}
+
+export default (_client: discord.Client, _config: any) => {
   client = _client
   config = _config
   if (config['cleanup-streams']) {
@@ -49,7 +56,7 @@ export default (_client, _config) => {
   }
 }
 
-function checkCleanup (msg) {
+function checkCleanup (msg: discord.Message) {
   if (!msg.deletable || !/\btwitch\.tv\//.test(msg.content)) return
   const match = msg.content.match(/\b(clips\.)?twitch\.tv\/(.+?)\b/)
   if (!match || match[1]) return
@@ -61,11 +68,11 @@ function checkCleanup (msg) {
   })
 }
 
-async function checkStreams (gracePeriod) {
+async function checkStreams (gracePeriod: number) {
   const users = [...new Set([...streamMessages].map(m => m.twitchUser))]
   if (!users.length) return
   const streams = await getTwitchApi('streams', {first: 100, user_login: users})
-  const online = streams.filter(s => s.type === 'live').map(s => s.user_name.toLowerCase())
+  const online = streams.filter((s: { type: string; }) => s.type === 'live').map((s: { user_name: string; }) => s.user_name.toLowerCase())
   for (const msg of streamMessages) {
     if (online.includes(msg.twitchUser.toLowerCase())) continue
     if (Date.now() - msg.message.createdTimestamp < gracePeriod * 1000) {
@@ -85,10 +92,10 @@ async function checkStreams (gracePeriod) {
   }
 }
 
-async function deleteAndLog (msg, reason) {
+async function deleteAndLog (msg: discord.Message, reason: string) {
   await msg.delete({reason})
   if (config.modlog) {
-    const modlog = await client.channels.fetch(config.modlog)
+    const modlog = await client.channels.fetch(config.modlog) as TextChannel
     await modlog.send({
       embed: {
         author: {
@@ -109,7 +116,7 @@ async function deleteAndLog (msg, reason) {
   }
 }
 
-let oauthToken, oauthExpires
+let oauthToken: any, oauthExpires: number
 async function getTwitchOauthToken () {
   if (oauthToken && Date.now() < oauthExpires) return oauthToken
   console.log('Fetching new Twitch OAuth token')
@@ -123,7 +130,7 @@ async function getTwitchOauthToken () {
   return oauthToken
 }
 
-async function getTwitchApi (path, params) {
+async function getTwitchApi (path: string, params: { first?: number; user_login?: any[]; after?: any; }) {
   const token = await getTwitchOauthToken()
   const r = () => request({
     url: 'https://api.twitch.tv/helix/' + path,
