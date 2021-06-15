@@ -5,6 +5,7 @@
   "description": "Bot for the SciCraft Discord server.",
   "main": "index.js",
   "scripts": {
+    "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "commandblockguy",
@@ -16,5 +17,8 @@
     "jira-client": "^6.11.0",
     "request": "^2.88.2",
     "request-promise-native": "^1.0.8"
+  },
+  "devDependencies": {
+    "typescript": "^4.3.2"
   }
 }
