@@ -1,6 +1,6 @@
 import request from 'request'
 import discord from 'discord.js'
-import JiraApi from 'jira-client';
+import JiraApi from 'jira-client'
 
 let jira: JiraApi, client: discord.Client, config: any
 

@@ -1,8 +1,9 @@
 import request from 'request-promise-native'
+import discord, { TextChannel } from 'discord.js'
 
-let client, config
+let client: discord.Client, config: any
 
-export default (_client, _config) => {
+export default (_client: discord.Client, _config: any) => {
   client = _client
   config = _config['minecraft-version']
   if (!config) return
@@ -12,10 +13,10 @@ export default (_client, _config) => {
   }
 }
 
-async function poll () {
+async function poll (this: any) {
   try {
     const data = await request('https://launchermeta.mojang.com/mc/game/version_manifest.json', { json: true })
-    const latestDate = data.versions.map(v => Date.parse(v.time)).reduce((a, b) => a > b ? a : b)
+    const latestDate = data.versions.map((v: { time: string; }) => Date.parse(v.time)).reduce((a: number, b: number) => a > b ? a : b)
     if (this.latestDate === undefined) {
       this.latestRelease = data.latest.release
       this.latestSnapshot = data.latest.snapshot
@@ -30,24 +31,32 @@ async function poll () {
     if (this.latestRelease !== data.latest.release) {
       this.latestRelease = data.latest.release
       this.latestSnapshot = data.latest.snapshot
-      update(data.versions.find(v => v.id === data.latest.release))
+      update(data.versions.find((v: { id: any; }) => v.id === data.latest.release))
     } else if (this.latestSnapshot !== data.latest.snapshot) {
       this.latestSnapshot = data.latest.snapshot
-      update(data.versions.find(v => v.id === data.latest.snapshot))
+      update(data.versions.find((v: { id: any; }) => v.id === data.latest.snapshot))
     }
   } catch (e) {
     console.error(e)
   }
 }
 
-const fancySize = size => {
+const fancySize = (size: number) => {
   const mbs = size / (1024 * 1204)
   return mbs.toFixed(1) + 'MB'
 }
 
-async function update (version, test) {
+interface Fields {
+  Changelog?: string;
+  Type: string;
+  Id: any;
+  'Version JSON': string;
+  Assets: string;
+}
+
+async function update (version: { url: string; type: string; id: any; releaseTime: any; }, test?: boolean) {
   const details = await request(version.url, { json: true })
-  const fields = {
+  const fields: Fields = {
     Type: version.type[0].toUpperCase() + version.type.slice(1),
     Id: version.id,
     'Version JSON': `[${version.id}.json](${version.url})`,
@@ -58,7 +67,7 @@ async function update (version, test) {
     const {url, image, subtitle} = await getArticle(version)
     if (url) {
       fields.Changelog = `[${subtitle || 'minecraft.net'}](${url})`
-      if (image.endsWith('-header.jpg')) {
+      if (image?.endsWith('-header.jpg')) {
         embedImage = {url: image}
       } else {
         embedThumbnail = {url: image}
@@ -69,6 +78,7 @@ async function update (version, test) {
   const embeds = [{
     title: `Minecraft ${getFullVersionName(version)}`,
     url: version.url,
+    // @ts-ignore
     description: Object.keys(fields).map(k => `**${k}**: ${fields[k]}`).join('\n') + '\n\n' + jars,
     timestamp: version.releaseTime,
     image: embedImage,
@@ -81,24 +91,24 @@ async function update (version, test) {
   if (config.webhook) await request.post(config.webhook, {json: {embeds}})
   if (config.channels) {
     for (const id of config.channels) {
-      const channel = await client.channels.fetch(id)
+      const channel = await client.channels.fetch(id) as TextChannel
       await channel.send({embed: embeds[0]})
     }
   }
 }
 
-function getFullVersionName(version) {
+function getFullVersionName(version: { id: string; type: string | any[]; }) {
   const match = version.id.match(/^(\d+\.\d+(?:\.\d+)?)(-(rc|pre)(\d+)$)?/)
-  switch (match[3]) {
-    case 'rc': return match[1] + ' Release Candidate ' + match[4]
-    case 'pre': return match[1] + ' Pre-Release ' + match[4]
+  switch (match![3]) {
+    case 'rc': return match![1] + ' Release Candidate ' + match![4]
+    case 'pre': return match![1] + ' Pre-Release ' + match![4]
   }
   return version.type[0].toUpperCase() + version.type.slice(1) + ' ' + version.id
 }
 
-async function getArticle (version) {
+async function getArticle (version: { id: string; type: string; }): Promise<{ url?: string; title?: any; subtitle?: any; image?: string; }> {
   const articles = await request('https://www.minecraft.net/content/minecraft-net/_jcr_content.articles.grid', { json: true })
-  const candidates = articles.article_grid.filter(article => {
+  const candidates = articles.article_grid.filter((article: { default_tile: { title: any; sub_header: string | string[]; }; }) => {
     const title = article.default_tile.title
     if (!title.startsWith('Minecraft ') || title.startsWith('Minecraft Dungeons') || article.default_tile.sub_header.includes('Bedrock Beta')) return false
     if (title.includes(version.id)) return true
