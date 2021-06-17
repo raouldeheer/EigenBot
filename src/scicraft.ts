@@ -1,9 +1,9 @@
 import request from 'request-promise-native';
-import discord, { TextChannel } from 'discord.js';
-import { StreamMessage } from './types';
+import discord, { PermissionResolvable, TextChannel } from 'discord.js';
+import { configOptions, StreamMessage } from './types';
 
-let client: discord.Client, config: any;
-const twitchAuth = { id: null, secret: null };
+let client: discord.Client, config: configOptions;
+const twitchAuth = { id: "", secret: "" };
 const streamMessages = new Set<StreamMessage>();
 let oauthToken: any;
 let oauthExpires: number;
@@ -39,7 +39,7 @@ export default (_client: discord.Client, _config: any) => {
         }
       }
       for (const perm of ignorePermissions) {
-        if (msg.member.hasPermission(perm)) {
+        if (msg.member.hasPermission(perm as PermissionResolvable)) {
           console.log(`${msg.id}: ${msg.author.username} has ${perm}, not deleting`);
           return;
         }
