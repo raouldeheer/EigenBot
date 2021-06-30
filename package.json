@@ -23,6 +23,6 @@
     "@types/jira-client": "^6.21.0",
     "@types/node": "^15.12.2",
     "@types/request-promise-native": "^1.0.17",
-    "typescript": "^4.3.2"
+    "typescript": "^4.3.4"
   }
 }
