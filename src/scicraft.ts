@@ -2,13 +2,14 @@ import request from 'request-promise-native';
 import discord, { PermissionResolvable, TextChannel } from 'discord.js';
 import { configOptions, StreamMessage } from './types';
 
-let client: discord.Client, config: configOptions;
+let client: discord.Client;
+let config: configOptions;
 const twitchAuth = { id: "", secret: "" };
 const streamMessages = new Set<StreamMessage>();
-let oauthToken: any;
+let oauthToken: string;
 let oauthExpires: number;
 
-export default (_client: discord.Client, _config: any) => {
+export default (_client: discord.Client, _config: configOptions) => {
   client = _client;
   config = _config;
   if (config['cleanup-streams']) {
@@ -113,28 +114,30 @@ const getTwitchOauthToken = async (): Promise<any> => {
     qs: { client_id: twitchAuth.id, client_secret: twitchAuth.secret, grant_type: 'client_credentials' },
     method: 'POST',
   }));
-  oauthToken = access_token;
   oauthExpires = Date.now() + (expires_in - 20) * 1000;
-  return oauthToken;
+  return oauthToken = access_token;
 };
 
-const getTwitchApi = async(path: string, params: { first?: number; user_login?: any[]; after?: any; }): Promise<any> => {
-  const token = await getTwitchOauthToken();
-  const req = () => request({
-    url: 'https://api.twitch.tv/helix/' + path,
-    qs: params,
-    qsStringifyOptions: { arrayFormat: 'repeat' },
-    headers: {
-      'Client-ID': twitchAuth.id,
-      'Authorization': 'Bearer ' + token,
-    },
+const getTwitchApi = async (path: string, params: { first?: number; user_login?: any[]; after?: any; }): Promise<any[]> => {
+  const req = () => new Promise<any>(async resolve => {
+    request({
+      url: 'https://api.twitch.tv/helix/' + path,
+      qs: params,
+      qsStringifyOptions: { arrayFormat: 'repeat' },
+      headers: {
+        'Client-ID': twitchAuth.id,
+        'Authorization': 'Bearer ' + await getTwitchOauthToken(),
+      },
+    })
+      .then(v => resolve(JSON.parse(v)))
+      .catch(reason => console.log(`Twitch api error: ${reason}`));
   });
-  let res = JSON.parse(await req());
-  const data = res.data;
+  let res = await req();
+  const data: any[] = res.data;
   while (res.data.length && res.pagination && res.pagination.cursor && res.pagination.cursor !== 'IA') {
     params.after = res.pagination.cursor;
-    res = JSON.parse(await req());
+    res = await req();
     data.push(...res.data);
   }
   return data;
-}
+};
