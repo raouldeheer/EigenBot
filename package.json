@@ -6,6 +6,7 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc",
+    "build:watch": "tsc -w",
     "start": "node build/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -16,12 +17,13 @@
   "dependencies": {
     "discord.js": "^12.5.3",
     "jira-client": "^6.11.0",
+    "mylas": "^2.0.2",
     "request": "^2.88.2",
     "request-promise-native": "^1.0.8"
   },
   "devDependencies": {
     "@types/jira-client": "^6.21.0",
-    "@types/node": "^15.12.2",
+    "@types/node": "^16.3.1",
     "@types/request-promise-native": "^1.0.17",
     "typescript": "^4.3.2"
   }
