@@ -26,10 +26,10 @@
   resolved "https://registry.yarnpkg.com/@types/caseless/-/caseless-0.12.2.tgz#f65d3d6389e01eeb458bd54dc8f52b95a9463bc8"
   integrity sha512-6ckxMjBBD8URvjB6J3NcnuAn5Pkl7t3TizAg+xdlzzQGSPSmBcXf8KoIH0ua/i+tio+ZRUHEXp0HEmvaR4kt0w==
 
-"@types/jira-client@^6.21.1":
-  version "6.21.1"
-  resolved "https://registry.yarnpkg.com/@types/jira-client/-/jira-client-6.21.1.tgz#385c34dcb113eb017ea10c03e8de6b9e951f3c34"
-  integrity sha512-iuuTzQfDcqoOveQtMRK6ZaNa41+yCpSRwo3RLpzLnxSF/ThEgSkcM3qYbYs85l1ZAjF9P6eQMFxmMywTPKJL9g==
+"@types/jira-client@^6.21.3":
+  version "6.21.3"
+  resolved "https://registry.yarnpkg.com/@types/jira-client/-/jira-client-6.21.3.tgz#a822f76354bdfaa908ad173a62e6f70bf14df7a5"
+  integrity sha512-j5jVMlTI1kwkFT/Sxoi3eLUhNg6X7EqH0TRthrpwlwjdIr81ehigXVJ7FMUH8/xY4I2TNwVQL0MqlemZonbNpA==
   dependencies:
     "@types/node" "*"
     "@types/request" "*"
