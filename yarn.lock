@@ -231,10 +231,10 @@ isstream@~0.1.2:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/isstream/-/isstream-0.1.2.tgz"
 
-jira-client@^6.21.1:
-  version "6.21.1"
-  resolved "https://registry.yarnpkg.com/jira-client/-/jira-client-6.21.1.tgz#34ad42ada04432e1490f2058c901ddd7e6dd3452"
-  integrity sha512-I9HyNNEOA7ZMJO7uLSyEZKk4oXkYct+kspy9/tbBOOvK9xsZI034p1GxGdTpyV6LyRB/Rd5IRJCS4IpDp6EzZw==
+jira-client@^6.23.0:
+  version "6.23.0"
+  resolved "https://registry.yarnpkg.com/jira-client/-/jira-client-6.23.0.tgz#fae98fb2385868e284edd7d555da6eba1330af36"
+  integrity sha512-cVa2ay++S1/GxBPJSlfV9EAEpHWo8OhF38Nuf9uR7ErN7uIzGPjsHG2iR/IZnjUX9DHNzpLrV0CBH+5FxsMBIw==
   dependencies:
     "@babel/runtime" "^7.6.0"
     request "^2.88.0"
