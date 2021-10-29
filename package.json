@@ -15,7 +15,7 @@
   "repository": "https://github.com/SciCraft/SciCraftBot",
   "license": "MIT",
   "dependencies": {
-    "discord.js": "^12.5.3",
+    "discord.js": "^13.3.0",
     "jira-client": "^6.21.1",
     "mylas": "^2.0.2",
     "request": "^2.88.2",
