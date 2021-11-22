@@ -21,6 +21,22 @@
     combined-stream "^1.0.8"
     mime-types "^2.1.12"
 
+"@postman/form-data@~3.1.1":
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/@postman/form-data/-/form-data-3.1.1.tgz#d0446d0d3639a291f5e800e89fa1d0d3723f9414"
+  integrity sha512-vjh8Q2a8S6UCm/KKs31XFJqEEgmbjBmpPNVV2eVav6905wyFAwaUOBGA1NPBI4ERH9MMZc6w0umFgM6WbEPMdg==
+  dependencies:
+    asynckit "^0.4.0"
+    combined-stream "^1.0.8"
+    mime-types "^2.1.12"
+
+"@postman/tunnel-agent@^0.6.3":
+  version "0.6.3"
+  resolved "https://registry.yarnpkg.com/@postman/tunnel-agent/-/tunnel-agent-0.6.3.tgz#23048d8d8618d453c571f03189e944afdc2292b7"
+  integrity sha512-k57fzmAZ2PJGxfOA4SGR05ejorHbVAa/84Hxh/2nAztjNXc4ZjOm9NUIk6/Z6LCrBvJZqjRZbN8e/nROVUPVdg==
+  dependencies:
+    safe-buffer "^5.0.1"
+
 "@types/caseless@*":
   version "0.12.2"
   resolved "https://registry.yarnpkg.com/@types/caseless/-/caseless-0.12.2.tgz#f65d3d6389e01eeb458bd54dc8f52b95a9463bc8"
@@ -98,15 +114,28 @@ aws4@^1.8.0:
   version "1.9.1"
   resolved "https://registry.yarnpkg.com/aws4/-/aws4-1.9.1.tgz"
 
+base64-js@^1.1.2:
+  version "1.5.1"
+  resolved "https://registry.yarnpkg.com/base64-js/-/base64-js-1.5.1.tgz#1b1b440160a5bf7ad40b650f095963481903930a"
+  integrity sha512-AKpaYlHn8t4SVbOHCy+b5+KKgvR4vrsD8vbvrbiQJps7fKDTkjkDry6ji0rUJjC0kzbNePLwzxq8iypo41qeWA==
+
 bcrypt-pbkdf@^1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/bcrypt-pbkdf/-/bcrypt-pbkdf-1.0.2.tgz"
   dependencies:
     tweetnacl "^0.14.3"
 
-bluebird@^3.5.0:
-  version "3.7.2"
-  resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-3.7.2.tgz"
+bluebird@^2.6.2:
+  version "2.11.0"
+  resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-2.11.0.tgz#534b9033c022c9579c56ba3b3e5a5caafbb650e1"
+  integrity sha1-U0uQM8AiyVecVro7Plpcqvu2UOE=
+
+brotli@~1.3.2:
+  version "1.3.2"
+  resolved "https://registry.yarnpkg.com/brotli/-/brotli-1.3.2.tgz#525a9cad4fcba96475d7d388f6aecb13eed52f46"
+  integrity sha1-UlqcrU/LqWR119OI9q7LE+7VL0Y=
+  dependencies:
+    base64-js "^1.1.2"
 
 caseless@~0.12.0:
   version "0.12.0"
@@ -223,6 +252,15 @@ http-signature@~1.2.0:
     jsprim "^1.2.2"
     sshpk "^1.7.0"
 
+http-signature@~1.3.1:
+  version "1.3.6"
+  resolved "https://registry.yarnpkg.com/http-signature/-/http-signature-1.3.6.tgz#cb6fbfdf86d1c974f343be94e87f7fc128662cf9"
+  integrity sha512-3adrsD6zqo4GsTqtO7FyrejHNv+NgiIfAfv68+jVlFmSr9OGy7zrxONceFRLKvnnZA5jbxQBX1u9PpB6Wi32Gw==
+  dependencies:
+    assert-plus "^1.0.0"
+    jsprim "^2.0.2"
+    sshpk "^1.14.1"
+
 is-typedarray@~1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/is-typedarray/-/is-typedarray-1.0.0.tgz"
@@ -231,14 +269,13 @@ isstream@~0.1.2:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/isstream/-/isstream-0.1.2.tgz"
 
-jira-client@^6.21.1:
-  version "6.21.1"
-  resolved "https://registry.yarnpkg.com/jira-client/-/jira-client-6.21.1.tgz#34ad42ada04432e1490f2058c901ddd7e6dd3452"
-  integrity sha512-I9HyNNEOA7ZMJO7uLSyEZKk4oXkYct+kspy9/tbBOOvK9xsZI034p1GxGdTpyV6LyRB/Rd5IRJCS4IpDp6EzZw==
+jira-client@^8.0.0:
+  version "8.0.0"
+  resolved "https://registry.yarnpkg.com/jira-client/-/jira-client-8.0.0.tgz#ce00c964f2aeed1f4a0bf8ed28bc3fe6f045216e"
+  integrity sha512-vei9WuUboBAcQRxO6b5SwO5JXEyC1Y0ydiW4JiD7tPYc65wjXSbZvGDtQWsz7IOssFG/BQNAcJdiS79qVwnAJw==
   dependencies:
     "@babel/runtime" "^7.6.0"
-    request "^2.88.0"
-    request-promise "^4.1.1"
+    postman-request "^2.88.1-postman.30"
 
 jsbn@~0.1.0:
   version "0.1.1"
@@ -251,6 +288,11 @@ json-schema-traverse@^0.4.1:
 json-schema@0.2.3:
   version "0.2.3"
   resolved "https://registry.yarnpkg.com/json-schema/-/json-schema-0.2.3.tgz"
+
+json-schema@0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/json-schema/-/json-schema-0.4.0.tgz#f7de4cf6efab838ebaeb3236474cbba5a1930ab5"
+  integrity sha512-es94M3nTIfsEPisRafak+HDLfHXnKBhV3vU5eqPcS3flIWqcxJWgXHXiey3YrpaNsanY5ei1VoYEbOzijuq9BA==
 
 json-stringify-safe@~5.0.1:
   version "5.0.1"
@@ -265,7 +307,17 @@ jsprim@^1.2.2:
     json-schema "0.2.3"
     verror "1.10.0"
 
-lodash@^4.17.15, lodash@^4.17.19:
+jsprim@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/jsprim/-/jsprim-2.0.2.tgz#77ca23dbcd4135cd364800d22ff82c2185803d4d"
+  integrity sha512-gqXddjPqQ6G40VdnI6T6yObEC+pDNvyP95wdQhkWkg7crHH3km5qP1FsOXEkzEQwnz6gz5qGTn1c2Y52wP3OyQ==
+  dependencies:
+    assert-plus "1.0.0"
+    extsprintf "1.3.0"
+    json-schema "0.4.0"
+    verror "1.10.0"
+
+lodash@^4.17.19:
   version "4.17.21"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.21.tgz#679591c564c3bffaae8454cf0b3df370c3d6911c"
   integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==
@@ -298,6 +350,34 @@ performance-now@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/performance-now/-/performance-now-2.1.0.tgz"
 
+postman-request@^2.88.1-postman.30:
+  version "2.88.1-postman.30"
+  resolved "https://registry.yarnpkg.com/postman-request/-/postman-request-2.88.1-postman.30.tgz#44554fd3c19bf19e0a583e92b654d3c4f7e4669e"
+  integrity sha512-zsGvs8OgNeno1Q44zTgGP2IL7kCqUy4DAtl8/ms0AQpqkIoysrxzR/Zg4kM1Kz8/duBvwxt8NN717wB7SMNm6w==
+  dependencies:
+    "@postman/form-data" "~3.1.1"
+    "@postman/tunnel-agent" "^0.6.3"
+    aws-sign2 "~0.7.0"
+    aws4 "^1.8.0"
+    brotli "~1.3.2"
+    caseless "~0.12.0"
+    combined-stream "~1.0.6"
+    extend "~3.0.2"
+    forever-agent "~0.6.1"
+    har-validator "~5.1.3"
+    http-signature "~1.3.1"
+    is-typedarray "~1.0.0"
+    isstream "~0.1.2"
+    json-stringify-safe "~5.0.1"
+    mime-types "~2.1.19"
+    oauth-sign "~0.9.0"
+    performance-now "^2.1.0"
+    qs "~6.5.2"
+    safe-buffer "^5.1.2"
+    stream-length "^1.0.2"
+    tough-cookie "~2.5.0"
+    uuid "^3.3.2"
+
 prism-media@^1.2.9:
   version "1.3.1"
   resolved "https://registry.yarnpkg.com/prism-media/-/prism-media-1.3.1.tgz#418acd2b122bedea2e834056d678f9a5ad2943ae"
@@ -319,12 +399,6 @@ regenerator-runtime@^0.13.4:
   version "0.13.5"
   resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.13.5.tgz"
 
-request-promise-core@1.1.3:
-  version "1.1.3"
-  resolved "https://registry.yarnpkg.com/request-promise-core/-/request-promise-core-1.1.3.tgz"
-  dependencies:
-    lodash "^4.17.15"
-
 request-promise-core@1.1.4:
   version "1.1.4"
   resolved "https://registry.yarnpkg.com/request-promise-core/-/request-promise-core-1.1.4.tgz#3eedd4223208d419867b78ce815167d10593a22f"
@@ -341,16 +415,7 @@ request-promise-native@^1.0.9:
     stealthy-require "^1.1.1"
     tough-cookie "^2.3.3"
 
-request-promise@^4.1.1:
-  version "4.2.5"
-  resolved "https://registry.yarnpkg.com/request-promise/-/request-promise-4.2.5.tgz"
-  dependencies:
-    bluebird "^3.5.0"
-    request-promise-core "1.1.3"
-    stealthy-require "^1.1.1"
-    tough-cookie "^2.3.3"
-
-request@^2.88.0, request@^2.88.2:
+request@^2.88.2:
   version "2.88.2"
   resolved "https://registry.yarnpkg.com/request/-/request-2.88.2.tgz"
   dependencies:
@@ -387,7 +452,7 @@ setimmediate@^1.0.5:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/setimmediate/-/setimmediate-1.0.5.tgz"
 
-sshpk@^1.7.0:
+sshpk@^1.14.1, sshpk@^1.7.0:
   version "1.16.1"
   resolved "https://registry.yarnpkg.com/sshpk/-/sshpk-1.16.1.tgz"
   dependencies:
@@ -404,6 +469,13 @@ sshpk@^1.7.0:
 stealthy-require@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/stealthy-require/-/stealthy-require-1.1.1.tgz"
+
+stream-length@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/stream-length/-/stream-length-1.0.2.tgz#8277f3cbee49a4daabcfdb4e2f4a9b5e9f2c9f00"
+  integrity sha1-gnfzy+5JpNqrz9tOL0qbXp8snwA=
+  dependencies:
+    bluebird "^2.6.2"
 
 tough-cookie@^2.3.3, tough-cookie@~2.5.0:
   version "2.5.0"
