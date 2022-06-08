@@ -280,10 +280,10 @@ mime-types@^2.1.12, mime-types@~2.1.19:
   dependencies:
     mime-db "1.43.0"
 
-mylas@^2.0.2:
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/mylas/-/mylas-2.0.2.tgz#66d42917da28a1bf5b48bdc90dc0c8aa993c05e9"
-  integrity sha512-dfMRnpPNImvGxeEwlWWomWnvieEp+91QcOPidhj4NB/sFNMErZCm85tGROW9+6HLUKThU4Ul6nnkv9Ml39okCQ==
+mylas@^2.1.10:
+  version "2.1.10"
+  resolved "https://registry.yarnpkg.com/mylas/-/mylas-2.1.10.tgz#bb3b07488c40ae08c78dc5a6d4cf8125e1c53dee"
+  integrity sha512-bhQsHMsKUn2m/QvbyFX3tCiXWGHp9XhqBQiG07QixaA1GGWeEA1ecHtRxhcDjQm6IhKBJ7EUuJf+EcRfMEJiqQ==
 
 node-fetch@^2.6.1:
   version "2.6.1"
