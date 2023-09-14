@@ -23,7 +23,7 @@
   },
   "devDependencies": {
     "@types/jira-client": "^7.1.6",
-    "@types/node": "^20.4.8",
+    "@types/node": "^20.6.0",
     "@types/request-promise-native": "^1.0.18",
     "typescript": "^5.1.6"
   }
